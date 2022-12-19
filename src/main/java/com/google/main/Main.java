@@ -8,6 +8,14 @@ import com.google.protobuf.Descriptors.DescriptorValidationException;
 
 public class Main {
   public static void main(String[] args) throws DescriptorValidationException {
+
+    final Descriptor descriptor = getDescriptor();
+
+    System.out.println(descriptor.getFullName());
+    System.out.print("OK");
+  }
+
+  public static Descriptor getDescriptor() throws DescriptorValidationException {
     final TableFieldSchema test_int =
         TableFieldSchema.newBuilder()
             .setType(TableFieldSchema.Type.INT64)
@@ -51,10 +59,6 @@ public class Main {
             .addFields(1, reuse_lvl1_1)
             .addFields(2, reuse_lvl1_2)
             .build();
-    final Descriptor descriptor =
-        BQTableSchemaToProtoDescriptor.convertBQTableSchemaToProtoDescriptor(tableSchema);
-
-    System.out.println(descriptor.getFullName());
-    System.out.print("OK");
+    return BQTableSchemaToProtoDescriptor.convertBQTableSchemaToProtoDescriptor(tableSchema);
   }
 }
