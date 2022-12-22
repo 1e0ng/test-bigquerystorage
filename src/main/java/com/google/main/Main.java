@@ -61,4 +61,31 @@ public class Main {
             .build();
     return BQTableSchemaToProtoDescriptor.convertBQTableSchemaToProtoDescriptor(tableSchema);
   }
+
+  public static Descriptor getDescriptorForExtension() throws DescriptorValidationException {
+    final TableFieldSchema stringField =
+        TableFieldSchema.newBuilder()
+            .setType(TableFieldSchema.Type.STRING)
+            .setMode(TableFieldSchema.Mode.NULLABLE)
+            .setName("str-列")
+            .build();
+    final TableFieldSchema intField =
+        TableFieldSchema.newBuilder()
+            .setType(TableFieldSchema.Type.INT64)
+            .setMode(TableFieldSchema.Mode.NULLABLE)
+            .setName("int-列")
+            .build();
+    final TableFieldSchema nestedField =
+        TableFieldSchema.newBuilder()
+            .setType(TableFieldSchema.Type.STRUCT)
+            .setMode(TableFieldSchema.Mode.NULLABLE)
+            .setName("nested-列")
+            .addFields(0, intField)
+            .build();
+    final TableSchema tableSchema =
+        TableSchema.newBuilder().addFields(0, stringField).addFields(1, nestedField).build();
+    final Descriptor descriptor =
+        BQTableSchemaToProtoDescriptor.convertBQTableSchemaToProtoDescriptor(tableSchema);
+    return descriptor;
+  }
 }
